@@ -17,7 +17,8 @@ let config = {
     title: 'noclip',
     version: '.0001',
     scene: [
-        GameScene,
+        Preloader,
+        PlayGame,
         Victory
     ],
     parent: 'game'
