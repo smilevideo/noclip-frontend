@@ -1,6 +1,6 @@
-class Preloader extends Phaser.Scene {
+class Initializer extends Phaser.Scene {
     constructor() {
-        super({key: 'Preloader'});
+        super({key: 'Initializer'});
     }
 
     preload() {
@@ -21,5 +21,21 @@ class Preloader extends Phaser.Scene {
     create() {
         console.log('Preload Complete');
         this.scene.start('PlayGame');
+
+        //music
+        this.music = this.sound.add('beat', { loop: true });
+        this.music.play();
+
+        this.pointer = this.input.activePointer;
+        this.input.on('pointerdown', () => {
+            if (this.music.isPlaying) {
+                this.music.pause();
+            }
+            else {
+                this.music.resume();
+            }
+        })
     }
 }
+
+export default Initializer;

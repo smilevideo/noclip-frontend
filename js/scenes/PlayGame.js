@@ -14,10 +14,6 @@ class PlayGame extends Phaser.Scene {
         let scale = Math.max(scaleX, scaleY)
         image.setScale(scale).setScrollFactor(0)
     
-        //music
-        this.music = this.sound.add('beat', { loop: true });
-        this.music.play();
-    
         //player object
         this.player = this.matter.add.image((this.gameWidth / 2), 715, 'player');
     
@@ -29,7 +25,6 @@ class PlayGame extends Phaser.Scene {
         //obstacle objects
         let cat1 = this.matter.world.nextCategory();
         this.player.setCollisionCategory(cat1).setCollidesWith([cat1]);
-        
     
         let cat2 = this.matter.world.nextCategory();
         let obstacleNames = ['morty', 'ayu2', 'poo', 'saw'];
@@ -68,23 +63,10 @@ class PlayGame extends Phaser.Scene {
         })
     
         //input keys
-        this.cursors = this.input.keyboard.createCursorKeys();
-    
-        //mouse pointer - currently only used to play/stop music
-        this.pointer = this.input.activePointer;
-        this.input.on('pointerdown', () => {
-            if (this.music.isPlaying) {
-                this.music.pause();
-            }
-            else {
-                this.music.resume();
-            }
-        })
+        this.cursors = this.input.keyboard.createCursorKeys();    
     }
     
     update() {
-        //mouse input handling
-    
         //keyboard input handling
         if (this.cursors.space.isDown) {
             this.noclip();
@@ -139,6 +121,7 @@ class PlayGame extends Phaser.Scene {
     
     loss() {
         console.log('game loss');
+        this.scene.start('PlayGame');
     }
     
     win() {
@@ -146,3 +129,5 @@ class PlayGame extends Phaser.Scene {
         this.scene.start('Victory');
     }
 }
+
+export default PlayGame;

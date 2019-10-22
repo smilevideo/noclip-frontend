@@ -4,8 +4,8 @@ class Victory extends Phaser.Scene {
     }
 
     create() {
-        let taiko = this.add.image((game.config.width / 2), (game.config.height / 2), 'taiko');
-        let text = this.add.text((game.config.width / 2) - 200, game.config.height - 60, 'YOU\'RE WINNER!', 
+        let taiko = this.add.image((this.game.config.width / 2), (this.game.config.height / 2), 'taiko');
+        let text = this.add.text((this.game.config.width / 2) - 200, (this.game.config.height - 60), 'YOU\'RE WINNER!', 
             { font: '48px Arial', fill: '#00ff00' });
 
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -17,3 +17,5 @@ class Victory extends Phaser.Scene {
         }
     }
 }
+
+export default Victory;

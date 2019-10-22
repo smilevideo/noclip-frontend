@@ -1,3 +1,7 @@
+import Initializer from './scenes/Initializer.js';
+import PlayGame from './scenes/PlayGame.js';
+import Victory from './scenes/Victory.js';
+
 let config = {
     type: Phaser.WEBGL,
     width: 768,
@@ -17,7 +21,7 @@ let config = {
     title: 'noclip',
     version: '.0001',
     scene: [
-        Preloader,
+        Initializer,
         PlayGame,
         Victory
     ],
