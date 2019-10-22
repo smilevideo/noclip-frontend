@@ -6,7 +6,6 @@ let config = {
     type: Phaser.WEBGL,
     width: 768,
     height: 768,
-    // backgroundColor: '#1b1464',
     physics: {
         default: 'matter',
         matter: {
