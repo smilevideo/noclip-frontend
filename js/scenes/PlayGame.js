@@ -8,7 +8,10 @@ class PlayGame extends Phaser.Scene {
         this.gameHeight = this.cameras.main.height;
 
         let shapes = this.cache.json.get('shapes');
-        let test = this.cache.json.get('test');
+
+        this.cat1 = this.matter.world.nextCategory();
+        this.cat2 = this.matter.world.nextCategory();
+        this.cat3 = this.matter.world.nextCategory();
     
         //background image
         let image = this.add.image(this.gameWidth / 2, this.gameHeight / 2, 'bg')
@@ -22,7 +25,7 @@ class PlayGame extends Phaser.Scene {
             shape: shapes.alien10001,
             label: 'player'
         });
-        this.cat1 = this.matter.world.nextCategory();
+        
         this.player.setCollisionCategory(this.cat1);
         
         this.anims.create({
@@ -37,20 +40,39 @@ class PlayGame extends Phaser.Scene {
         this.player.setFrictionAir(.05);
         this.player.setMass(50);
 
+        //particles for player object
+        let particles = this.add.particles('blueParticle');
+
+        let emitter = particles.createEmitter({
+            speed: 10,
+            scale: { start: 1, end: 0 },
+            blendMode: 'ADD' 
+        });
+
+        emitter.startFollow(this.player);
+
+
         //obstacle objects    
         let obstacleNames = ['ayu2', 'morty', 'poo', 'saw'];
         for(let i = 0; i < obstacleNames.length; i++) {
-            let randX = Math.floor((Math.random() * this.gameWidth) - 50);
-            let obstacle = this.matter.add.image(randX, (this.gameHeight - 300) - (i * 100), obstacleNames[i], null,
-                { shape: test[obstacleNames[i]] });
+            let spawnX = Math.floor((Math.random() * this.gameWidth) - 50);
+            let obstacle = this.matter.add.image(spawnX, (this.gameHeight - 300) - (i * 100), obstacleNames[i], null,
+                { shape: shapes[obstacleNames[i]] });
 
-            obstacle.setCollisionCategory(this.cat1);
+            obstacle.setCollisionCategory(this.cat2);
+
+            let velocityX = Math.floor(Math.random() * 2) + 1;
+            if (Math.random() >= .5) {
+                velocityX *= -1;
+            }
+            let velocityY = 0;
+            obstacle.setVelocity(velocityX, velocityY).setBounce(1).setFriction(0);
         }
     
         //goal object
-        this.goal = this.matter.add.image(this.gameWidth / 2, 50, 'blueParticle', null, { shape: shapes.blue });
-        this.cat2 = this.matter.world.nextCategory();
-        this.goal.setCollisionCategory(this.cat2);
+        this.goal = this.matter.add.image(this.gameWidth / 2, 50, 'goal', null, { shape: shapes.goal });
+        this.goal.setCollisionCategory(this.cat3);
+        this.goal.setCollidesWith(this.cat1);
     
         //energy bar
         this.energyBar = this.add.sprite(15, (this.gameHeight / 2), 'energyBar').setScale(.5);
@@ -70,7 +92,7 @@ class PlayGame extends Phaser.Scene {
         this.matter.world.on('collisionstart', (event, bodyA, bodyB) => {
             console.log(`bodyA: ${bodyA.parent.label}`);
             console.log(`bodyB: ${bodyB.parent.label}`);
-            if ((bodyA.parent.label === 'alien10001') && (bodyB.parent.label === 'blue')) {
+            if ((bodyA.parent.label === 'alien10001') && (bodyB.parent.label === 'goal')) {
                 this.win();
             }
             else if (bodyA.parent.label === 'alien10001'){
@@ -122,7 +144,7 @@ class PlayGame extends Phaser.Scene {
         if (this.energyMask.y < ((this.gameHeight / 2) + this.energyBar.displayWidth)) {
             //player becomes transparent and can noclip through anything
             this.player.alpha = 0.5;
-            this.player.setCollidesWith(this.cat2);
+            this.player.setCollidesWith(this.cat3);
             
             //drains energy
             this.energyMask.y += 1;
@@ -135,7 +157,7 @@ class PlayGame extends Phaser.Scene {
     clip() {
         //player is no longer transparent nor able to noclip
         this.player.alpha = 1;
-        this.player.setCollidesWith([this.cat1, this.cat2]);
+        this.player.setCollidesWith([this.cat2, this.cat3]);
         
     }
     
