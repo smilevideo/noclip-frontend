@@ -6,6 +6,9 @@ class PlayGame extends Phaser.Scene {
     create() {
         this.gameWidth = this.cameras.main.width;
         this.gameHeight = this.cameras.main.height;
+
+        let shapes = this.cache.json.get('shapes');
+        let test = this.cache.json.get('test');
     
         //background image
         let image = this.add.image(this.gameWidth / 2, this.gameHeight / 2, 'bg')
@@ -15,42 +18,48 @@ class PlayGame extends Phaser.Scene {
         image.setScale(scale).setScrollFactor(0)
     
         //player object
-        this.player = this.matter.add.sprite((this.gameWidth / 2), 715, 'ufo');
+        this.player = this.matter.add.sprite((this.gameWidth / 2), 715, 'ufo', null, { 
+            shape: shapes.alien10001,
+            label: 'player'
+        });
+        this.cat1 = this.matter.world.nextCategory();
+        this.player.setCollisionCategory(this.cat1);
         
         this.anims.create({
             key: 'hover',
             frames: this.anims.generateFrameNumbers('ufo', { start: 0, end: 14 }),
-            frameRate: 30,
+            frameRate: 20,
             repeat: -1
         })
     
+        this.player.angle = 270;
         this.player.setFixedRotation();
-        this.player.setAngle(0);
         this.player.setFrictionAir(.05);
         this.player.setMass(50);
 
-        //obstacle objects
-        let cat1 = this.matter.world.nextCategory();
-        this.player.setCollisionCategory(cat1).setCollidesWith([cat1]);
-    
-        let cat2 = this.matter.world.nextCategory();
-        let obstacleNames = ['morty', 'ayu2', 'poo', 'saw'];
+        //obstacle objects    
+        let obstacleNames = ['ayu2', 'morty', 'poo', 'saw'];
         for(let i = 0; i < obstacleNames.length; i++) {
             let randX = Math.floor((Math.random() * this.gameWidth) - 50);
-            let obstacle = this.matter.add.image(randX, (this.gameHeight - 300) - (i * 100), obstacleNames[i], null, { isStatic: true });
-            
-            obstacle.setCollisionCategory(cat1).setCollisionGroup(-1);
+            let obstacle = this.matter.add.image(randX, (this.gameHeight - 300) - (i * 100), obstacleNames[i], null,
+                { shape: test[obstacleNames[i]] });
+
+            obstacle.setCollisionCategory(this.cat1);
         }
     
         //goal object
-        this.goal = this.matter.add.image(this.gameWidth / 2, 50, 'blueParticle', null, { isStatic: true });
-        this.goal.setCollisionCategory(cat1);
+        this.goal = this.matter.add.image(this.gameWidth / 2, 50, 'blueParticle', null, { shape: shapes.blue });
+        this.cat2 = this.matter.world.nextCategory();
+        this.goal.setCollisionCategory(this.cat2);
     
         //energy bar
         this.energyBar = this.add.sprite(15, (this.gameHeight / 2), 'energyBar').setScale(.5);
+        this.energyBar.alpha = 0.9;
         this.energyBar.angle = 90;
         this.energyBar.displayWidth = 150;
+
         this.energyMask = this.add.sprite(this.energyBar.x, this.energyBar.y, "energyBar").setScale(.5);
+        this.energyMask.alpha = 0.9;
         this.energyMask.angle = 90;
         this.energyMask.displayWidth = 150;
         this.energyMask.visible = false;
@@ -59,12 +68,12 @@ class PlayGame extends Phaser.Scene {
     
         //collision handling
         this.matter.world.on('collisionstart', (event, bodyA, bodyB) => {
-            console.log(`bodyA: ${bodyA.id}`);
-            console.log(`bodyB: ${bodyB.id}`);
-            if (bodyB === this.goal.body) {
+            console.log(`bodyA: ${bodyA.parent.label}`);
+            console.log(`bodyB: ${bodyB.parent.label}`);
+            if ((bodyA.parent.label === 'alien10001') && (bodyB.parent.label === 'blue')) {
                 this.win();
             }
-            else {
+            else if (bodyA.parent.label === 'alien10001'){
                 this.loss();
             }
         })
@@ -90,30 +99,31 @@ class PlayGame extends Phaser.Scene {
         else {
             if (this.cursors.left.isDown) {
                 if (!this.cursors.right.isDown) {
-                    this.player.thrustBack(0.1);
+                    this.player.thrustLeft(0.1);
                 }
             }
             else if (this.cursors.right.isDown) {
-                this.player.thrust(0.1);
+                this.player.thrustRight(0.1);
             }
         
             if (this.cursors.up.isDown) {
                 if (!this.cursors.down.isDown) {
-                    this.player.thrustLeft(0.1);
+                    this.player.thrust(0.1);
                 }
             }
             else if (this.cursors.down.isDown) {
-                this.player.thrustRight(0.1);
+                this.player.thrustBack(0.1);
             }
         }
     }
     
     noclip() {    
+        //check if player has energy left 
         if (this.energyMask.y < ((this.gameHeight / 2) + this.energyBar.displayWidth)) {
             //player becomes transparent and can noclip through anything
             this.player.alpha = 0.5;
-            this.player.setCollisionGroup(-1);
-    
+            this.player.setCollidesWith(this.cat2);
+            
             //drains energy
             this.energyMask.y += 1;
         }
@@ -125,7 +135,8 @@ class PlayGame extends Phaser.Scene {
     clip() {
         //player is no longer transparent nor able to noclip
         this.player.alpha = 1;
-        this.player.setCollisionGroup(0);
+        this.player.setCollidesWith([this.cat1, this.cat2]);
+        
     }
     
     loss() {
