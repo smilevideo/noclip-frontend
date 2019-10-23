@@ -8,12 +8,12 @@ class Initializer extends Phaser.Scene {
         this.load.spritesheet('blueRing', 'assets/images/blue_ring/spritesheet.png', { frameWidth: 200, frameHeight: 200 });
 
         this.load.image('bg', 'assets/images/space.jpg');
-        this.load.image('brain', 'assets/images/brain.png');
         this.load.image('morty','assets/images/morty.png');
         this.load.image('ayu2', 'assets/images/ayu2.png');
         this.load.image('poo', 'assets/images/poo.png');
         this.load.image('saw', 'assets/images/saw.png');
         this.load.image('energyBar', 'assets/images/rastercarpet32.png');
+        this.load.image('pillar', 'assets/images/pillar.png');
         this.load.image('blueParticle', 'assets/images/blue.png');
         this.load.image('taiko', 'assets/images/taikodrummaster.jpg');
         
@@ -23,12 +23,11 @@ class Initializer extends Phaser.Scene {
     }
 
     create() {
-        console.log('Preload Complete');
-        this.scene.start('PlayGame');
-
         //music
         this.music = this.sound.add('beat', { loop: true });
         this.music.play();
+
+        console.log('Preload Complete');
 
         // this.pointer = this.input.activePointer;
         // this.input.on('pointerdown', () => {
@@ -39,6 +38,8 @@ class Initializer extends Phaser.Scene {
         //         this.music.resume();
         //     }
         // })
+
+        this.scene.start('PlayGame');
     }
 }
 

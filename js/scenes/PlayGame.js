@@ -9,9 +9,9 @@ class PlayGame extends Phaser.Scene {
 
         let shapes = this.cache.json.get('shapes');
 
-        this.cat1 = this.matter.world.nextCategory();
-        this.cat2 = this.matter.world.nextCategory();
-        this.cat3 = this.matter.world.nextCategory();
+        this.playerCollisionCat = this.matter.world.nextCategory();
+        this.obstacleCollisionCat = this.matter.world.nextCategory();
+        this.otherCollisionCat = this.matter.world.nextCategory();
     
         //background image
         let image = this.add.image(this.gameWidth / 2, this.gameHeight / 2, 'bg')
@@ -19,12 +19,27 @@ class PlayGame extends Phaser.Scene {
         let scaleY = this.gameHeight / image.height
         let scale = Math.max(scaleX, scaleY)
         image.setScale(scale).setScrollFactor(0)
+
+        //edge objects
+        for(let i = 0; i < 4; i++){
+            //left side
+            let pillar = this.matter.add.image(0, 100 + (i * 200), 'pillar');
+            pillar.setCollisionCategory(this.otherCollisionCat);
+            pillar.setCollidesWith([this.playerCollisionCat, this.obstacleCollisionCat]);
+            pillar.setStatic(true).setScale(.6);
+
+            //right side
+            pillar = this.matter.add.image(this.gameWidth, 100 + (i * 200), 'pillar');
+            pillar.setCollisionCategory(this.otherCollisionCat);
+            pillar.setCollidesWith([this.playerCollisionCat, this.obstacleCollisionCat]);
+            pillar.setStatic(true).setScale(.6);
+        }
     
         //player object
         this.player = this.matter.add.sprite((this.gameWidth / 2), 715, 'ufo', null, { 
             shape: shapes.alien10001
         });
-        this.player.setCollisionCategory(this.cat1);
+        this.player.setCollisionCategory(this.playerCollisionCat);
         
         this.anims.create({
             key: 'playerHover',
@@ -56,7 +71,7 @@ class PlayGame extends Phaser.Scene {
             let obstacle = this.matter.add.image(spawnX, (this.gameHeight - 300) - (i * 100), obstacleNames[i], null,
                 { shape: shapes[obstacleNames[i]] });
 
-            obstacle.setCollisionCategory(this.cat2);
+            obstacle.setCollisionCategory(this.obstacleCollisionCat);
 
             let velocityX = Math.floor(Math.random() * 2) + 1;
             if (Math.random() >= .5) {
@@ -69,8 +84,8 @@ class PlayGame extends Phaser.Scene {
         //goal object
         this.goal = this.matter.add.sprite(this.gameWidth / 2, 50, 'blueRing', null, { shape: shapes.blueRing });
         this.goal.setScale(0.5);
-        this.goal.setCollisionCategory(this.cat3);
-        this.goal.setCollidesWith(this.cat1);
+        this.goal.setCollisionCategory(this.otherCollisionCat);
+        this.goal.setCollidesWith(this.playerCollisionCat);
 
         this.anims.create({
             key: 'goalPulse',
@@ -80,7 +95,7 @@ class PlayGame extends Phaser.Scene {
         })
     
         //energy bar
-        this.energyBar = this.add.sprite(15, (this.gameHeight / 2), 'energyBar').setScale(.5);
+        this.energyBar = this.add.sprite(50, (this.gameHeight / 2), 'energyBar').setScale(.5);
         this.energyBar.alpha = 0.9;
         this.energyBar.angle = 90;
         this.energyBar.displayWidth = 150;
@@ -92,7 +107,13 @@ class PlayGame extends Phaser.Scene {
         this.energyMask.visible = false;
     
         this.energyBar.mask = new Phaser.Display.Masks.BitmapMask(this, this.energyMask);
-    
+   
+        this.noEnergyText = this.add.text(this.energyBar.x - 10, this.energyBar.y, 'ENERGY DEPLETED', 
+        { font: '8px Arial', fill: '#00ff00' });
+        this.noEnergyText.alpha = 0.9;
+        this.noEnergyText.visible = false;
+
+
         //collision handling
         this.matter.world.on('collisionstart', (event, bodyA, bodyB) => {
             console.log(`bodyA: ${bodyA.parent.label}`);
@@ -112,6 +133,10 @@ class PlayGame extends Phaser.Scene {
     update() {
         this.player.anims.play('playerHover', true);
         this.goal.anims.play('goalPulse', true);
+
+        if (this.energyMask.y >= ((this.gameHeight / 2) + this.energyBar.displayWidth)) {
+            this.noEnergyText.visible = true;
+        }
 
         //keyboard input handling
         if (this.cursors.space.isDown) {
@@ -150,7 +175,7 @@ class PlayGame extends Phaser.Scene {
         if (this.energyMask.y < ((this.gameHeight / 2) + this.energyBar.displayWidth)) {
             //player becomes transparent and can noclip through anything
             this.player.alpha = 0.5;
-            this.player.setCollidesWith(this.cat3);
+            this.player.setCollidesWith(this.otherCollisionCat);
             
             //drains energy
             this.energyMask.y += 1;
@@ -163,8 +188,7 @@ class PlayGame extends Phaser.Scene {
     clip() {
         //player is no longer transparent nor able to noclip
         this.player.alpha = 1;
-        this.player.setCollidesWith([this.cat2, this.cat3]);
-        
+        this.player.setCollidesWith([this.obstacleCollisionCat, this.otherCollisionCat]);
     }
     
     loss() {
