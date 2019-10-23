@@ -207,7 +207,7 @@ class PlayGame extends Phaser.Scene {
     
     loss() {
         console.log('game loss');
-        this.scene.start('PlayGame');
+        this.scene.start('Defeat');
     }
     
     win() {

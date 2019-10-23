@@ -1,6 +1,7 @@
 import Initializer from './scenes/Initializer.js';
 import PlayGame from './scenes/PlayGame.js';
 import Victory from './scenes/Victory.js';
+import Defeat from './scenes/Defeat.js';
 
 let config = {
     type: Phaser.WEBGL,
@@ -22,7 +23,8 @@ let config = {
     scene: [
         Initializer,
         PlayGame,
-        Victory
+        Victory,
+        Defeat
     ],
     parent: 'game'
 };

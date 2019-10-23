@@ -16,6 +16,8 @@ class Initializer extends Phaser.Scene {
         this.load.image('pillar', 'assets/images/pillar.png');
         this.load.image('blueParticle', 'assets/images/blue.png');
         this.load.image('taiko', 'assets/images/taikodrummaster.jpg');
+        this.load.image('archmage', 'assets/images/archmage.png');
+        this.load.image('birdy', 'assets/images/birdy.png');
         
         this.load.json('shapes', 'assets/images/shapes.json');
     
