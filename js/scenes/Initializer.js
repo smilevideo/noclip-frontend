@@ -4,7 +4,7 @@ class Initializer extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('player', 'assets/images/ilkke.png');
+        this.load.spritesheet('ufo', 'assets/images/ufo/spritesheet.png', { frameWidth: 64, frameHeight: 64 });
         this.load.image('bg', 'assets/images/space.jpg');
         this.load.image('brain', 'assets/images/brain.png');
         this.load.image('morty','assets/images/morty.png');

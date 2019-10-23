@@ -15,7 +15,14 @@ class PlayGame extends Phaser.Scene {
         image.setScale(scale).setScrollFactor(0)
     
         //player object
-        this.player = this.matter.add.image((this.gameWidth / 2), 715, 'player');
+        this.player = this.matter.add.sprite((this.gameWidth / 2), 715, 'ufo');
+        
+        this.anims.create({
+            key: 'hover',
+            frames: this.anims.generateFrameNumbers('ufo', { start: 0, end: 14 }),
+            frameRate: 30,
+            repeat: -1
+        })
     
         this.player.setFixedRotation();
         this.player.setAngle(0);
@@ -67,6 +74,8 @@ class PlayGame extends Phaser.Scene {
     }
     
     update() {
+        this.player.anims.play('hover', true);
+
         //keyboard input handling
         if (this.cursors.space.isDown) {
             this.noclip();
