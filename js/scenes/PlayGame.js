@@ -22,14 +22,12 @@ class PlayGame extends Phaser.Scene {
     
         //player object
         this.player = this.matter.add.sprite((this.gameWidth / 2), 715, 'ufo', null, { 
-            shape: shapes.alien10001,
-            label: 'player'
+            shape: shapes.alien10001
         });
-        
         this.player.setCollisionCategory(this.cat1);
         
         this.anims.create({
-            key: 'hover',
+            key: 'playerHover',
             frames: this.anims.generateFrameNumbers('ufo', { start: 0, end: 14 }),
             frameRate: 20,
             repeat: -1
@@ -41,16 +39,15 @@ class PlayGame extends Phaser.Scene {
         this.player.setMass(50);
 
         //particles for player object
-        let particles = this.add.particles('blueParticle');
+        let playerParticles = this.add.particles('blueParticle');
 
-        let emitter = particles.createEmitter({
+        let playerEmitter = playerParticles.createEmitter({
             speed: 10,
-            scale: { start: 1, end: 0 },
+            scale: { start: 0.15, end: 0 },
             blendMode: 'ADD' 
         });
 
-        emitter.startFollow(this.player);
-
+        playerEmitter.startFollow(this.player);
 
         //obstacle objects    
         let obstacleNames = ['ayu2', 'morty', 'poo', 'saw'];
@@ -70,9 +67,17 @@ class PlayGame extends Phaser.Scene {
         }
     
         //goal object
-        this.goal = this.matter.add.image(this.gameWidth / 2, 50, 'goal', null, { shape: shapes.goal });
+        this.goal = this.matter.add.sprite(this.gameWidth / 2, 50, 'blueRing', null, { shape: shapes.blueRing });
+        this.goal.setScale(0.5);
         this.goal.setCollisionCategory(this.cat3);
         this.goal.setCollidesWith(this.cat1);
+
+        this.anims.create({
+            key: 'goalPulse',
+            frames: this.anims.generateFrameNumbers('blueRing', { start: 0, end: 14 }),
+            frameRate: 20,
+            repeat: -1
+        })
     
         //energy bar
         this.energyBar = this.add.sprite(15, (this.gameHeight / 2), 'energyBar').setScale(.5);
@@ -92,10 +97,10 @@ class PlayGame extends Phaser.Scene {
         this.matter.world.on('collisionstart', (event, bodyA, bodyB) => {
             console.log(`bodyA: ${bodyA.parent.label}`);
             console.log(`bodyB: ${bodyB.parent.label}`);
-            if ((bodyA.parent.label === 'alien10001') && (bodyB.parent.label === 'goal')) {
+            if ((bodyA.parent.label === 'player') && (bodyB.parent.label === 'goal')) {
                 this.win();
             }
-            else if (bodyA.parent.label === 'alien10001'){
+            else if (bodyA.parent.label === 'player'){
                 this.loss();
             }
         })
@@ -105,7 +110,8 @@ class PlayGame extends Phaser.Scene {
     }
     
     update() {
-        this.player.anims.play('hover', true);
+        this.player.anims.play('playerHover', true);
+        this.goal.anims.play('goalPulse', true);
 
         //keyboard input handling
         if (this.cursors.space.isDown) {

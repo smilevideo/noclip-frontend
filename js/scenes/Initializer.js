@@ -5,7 +5,8 @@ class Initializer extends Phaser.Scene {
 
     preload() {
         this.load.spritesheet('ufo', 'assets/images/ufo/spritesheet.png', { frameWidth: 64, frameHeight: 64 });
-        this.load.spritesheet('blueParticle', 'assets/images/blue_ring/spritesheet.png', { frameWidth: 200, frameHeight: 200 });
+        this.load.spritesheet('blueRing', 'assets/images/blue_ring/spritesheet.png', { frameWidth: 200, frameHeight: 200 });
+
         this.load.image('bg', 'assets/images/space.jpg');
         this.load.image('brain', 'assets/images/brain.png');
         this.load.image('morty','assets/images/morty.png');
@@ -13,10 +14,9 @@ class Initializer extends Phaser.Scene {
         this.load.image('poo', 'assets/images/poo.png');
         this.load.image('saw', 'assets/images/saw.png');
         this.load.image('energyBar', 'assets/images/rastercarpet32.png');
-        this.load.image('goal', 'assets/images/blue.png');
+        this.load.image('blueParticle', 'assets/images/blue.png');
         this.load.image('taiko', 'assets/images/taikodrummaster.jpg');
         
-
         this.load.json('shapes', 'assets/images/shapes.json');
     
         this.load.audio('beat', 'assets/audio/8bit_williamtell.mp3');

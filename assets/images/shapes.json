@@ -171,7 +171,7 @@
 	},
 	"alien10001": {
 		"type": "fromPhysicsEditor",
-		"label": "alien10001",
+		"label": "player",
 		"isStatic": false,
 		"density": 0.1,
 		"restitution": 0,
@@ -195,7 +195,7 @@
 			}
 		]
 	},
-	"goal": {
+	"blueRing": {
 		"type": "fromPhysicsEditor",
 		"label": "goal",
 		"isStatic": true,
@@ -214,9 +214,9 @@
 				"label": "",
 				"isSensor": false,
 				"circle": {
-					"x": 63,
-					"y": 63,
-					"radius": 23
+					"x": 100,
+					"y": 100,
+					"radius": 80
 				}
 			}
 		]
