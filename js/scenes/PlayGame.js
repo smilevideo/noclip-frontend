@@ -56,7 +56,7 @@ class PlayGame extends Phaser.Scene {
         this.player.setCollisionCategory(this.playerCollisionCat);
         
         this.anims.create({
-            key: 'playerHover',
+            key: 'playerFly',
             frames: this.anims.generateFrameNumbers('ufo', { start: 0, end: 14 }),
             frameRate: 20,
             repeat: -1
@@ -145,10 +145,10 @@ class PlayGame extends Phaser.Scene {
     }
     
     update() {
-        this.player.anims.play('playerHover', true);
+        this.player.anims.play('playerFly', true);
         this.goal.anims.play('goalPulse', true);
 
-        if (this.energyMask.y >= ((this.gameHeight / 2) + this.energyBar.displayWidth)) {
+        if ((this.energyMask.y >= ((this.gameHeight / 2) + this.energyBar.displayWidth)) && this.noEnergyText.visible === false) {
             this.noEnergyText.visible = true;
         }
 
