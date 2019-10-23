@@ -75,7 +75,7 @@ class PlayGame extends Phaser.Scene {
         this.anims.create({
             key: 'goalPulse',
             frames: this.anims.generateFrameNumbers('blueRing', { start: 0, end: 14 }),
-            frameRate: 20,
+            frameRate: 15,
             repeat: -1
         })
     
