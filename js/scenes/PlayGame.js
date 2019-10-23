@@ -33,10 +33,24 @@ class PlayGame extends Phaser.Scene {
             pillar.setCollisionCategory(this.otherCollisionCat);
             pillar.setCollidesWith([this.playerCollisionCat, this.obstacleCollisionCat]);
             pillar.setStatic(true).setScale(.6);
+
+            //bottom side
+            pillar = this.matter.add.image(100 + (i * 200), this.gameHeight, 'pillar');
+            pillar.setCollisionCategory(this.otherCollisionCat);
+            pillar.setCollidesWith([this.playerCollisionCat, this.obstacleCollisionCat]);
+            pillar.setStatic(true).setScale(.6);
+            pillar.angle = 90;
+
+            //top side
+            pillar = this.matter.add.image(100 + (i * 200), 0, 'pillar');
+            pillar.setCollisionCategory(this.otherCollisionCat);
+            pillar.setCollidesWith([this.playerCollisionCat, this.obstacleCollisionCat]);
+            pillar.setStatic(true).setScale(.6);
+            pillar.angle = 90;
         }
     
         //player object
-        this.player = this.matter.add.sprite((this.gameWidth / 2), 715, 'ufo', null, { 
+        this.player = this.matter.add.sprite((this.gameWidth / 2), 700, 'ufo', null, { 
             shape: shapes.alien10001
         });
         this.player.setCollisionCategory(this.playerCollisionCat);
@@ -58,7 +72,7 @@ class PlayGame extends Phaser.Scene {
 
         let playerEmitter = playerParticles.createEmitter({
             speed: 10,
-            scale: { start: 0.15, end: 0 },
+            scale: { start: 0.1, end: 0 },
             blendMode: 'ADD' 
         });
 
@@ -82,7 +96,7 @@ class PlayGame extends Phaser.Scene {
         }
     
         //goal object
-        this.goal = this.matter.add.sprite(this.gameWidth / 2, 50, 'blueRing', null, { shape: shapes.blueRing });
+        this.goal = this.matter.add.sprite(this.gameWidth / 2, 80, 'blueRing', null, { shape: shapes.blueRing });
         this.goal.setScale(0.5);
         this.goal.setCollisionCategory(this.otherCollisionCat);
         this.goal.setCollidesWith(this.playerCollisionCat);
