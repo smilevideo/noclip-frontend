@@ -15,8 +15,8 @@
 }
 
 #users{
-	margin-left: 850px;
-	margin-top: -650px;
+	margin-left: 1040px;
+	margin-top: -780px;
 	text-shadow: 0 0 15px #FFFFE0;
 }
 
@@ -24,16 +24,14 @@
 	text-shadow: 0 0 15px #FFFFE0;
 }
 
-@font-face {
-  font-family: neon;
-  src: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/707108/neon.ttf);
-}
 
-.flux {
-  font-family: neon;
+@import url('https://fonts.googleapis.com/css?family=Permanent+Marker&display=swap');
+
+.marquee {
+  font-family: 'Permanent Marker', cursive;
   color: #426DFB;
-  font-size: 5vw;
-  line-height: 5vw;
+  font-size: 4vw;
+  line-height: 4vw;
   text-shadow: 0 0 2vw #00BFFF;
 	text-decoration: underline;
 }
