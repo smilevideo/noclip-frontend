@@ -138,15 +138,15 @@ class PlayGame extends Phaser.Scene {
         this.noEnergyText.visible = false;
 
         //score
-        this.score = 10000;
-        this.timedEvent = this.time.addEvent({ delay: 10, callback: this.timeScore, callbackScope: this, loop: true });
-        this.scoreText = this.add.text(this.gameWidth - 150, 50, `Score: ${this.score}`, 
+        this.registry.values.score = 10000;
+        this.timedEvent = this.time.addEvent({ delay: 5, callback: () => { this.registry.values.score -= 1 }, callbackScope: this, loop: true });
+        this.scoreText = this.add.text(this.gameWidth - 150, 50, `Score: ${this.registry.values.score}`, 
             { font: '20px Arial' });
 
         //collision handling
         this.matter.world.on('collisionstart', (event, bodyA, bodyB) => {
-            console.log(`bodyA: ${bodyA.parent.label}`);
-            console.log(`bodyB: ${bodyB.parent.label}`);
+            // console.log(`bodyA: ${bodyA.parent.label}`);
+            // console.log(`bodyB: ${bodyB.parent.label}`);
             if ((bodyA.parent.label === 'player') && (bodyB.parent.label === 'goal')) {
                 this.win();
             }
@@ -156,11 +156,7 @@ class PlayGame extends Phaser.Scene {
         })
     
         //input keys
-        this.cursors = this.input.keyboard.createCursorKeys();    
-    }
-
-    timeScore() {
-        this.score -= 1;
+        this.cursors = this.input.keyboard.createCursorKeys(); 
     }
     
     update() {
@@ -168,7 +164,7 @@ class PlayGame extends Phaser.Scene {
         this.goal.anims.play('goalPulse', true);
 
         //update score text
-        this.scoreText.setText(`Score: ${this.score}`);
+        this.scoreText.setText(`Score: ${this.registry.values.score}`);
 
         //check if energy depleted to display message
         if ((this.energyMask.y >= ((this.gameHeight / 2) + this.energyBar.displayWidth)) && this.noEnergyText.visible === false) {

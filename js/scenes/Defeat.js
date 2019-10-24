@@ -6,6 +6,8 @@ class Defeat extends Phaser.Scene {
     }
   
     create() {
+        console.log(this.registry);
+        
         this.billy = this.sound.add('billy', { loop: false });
         this.billy.play();
         this.cameras.main.setBackgroundColor('#ffffff');
