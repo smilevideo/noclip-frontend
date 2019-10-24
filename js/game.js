@@ -81,8 +81,8 @@ function createUser(e) {
   document.getElementById('users').style.display = ""
   let username = e.target[0].value
   console.log(username);
-//   addUser(username)
-//   fetchData()
+  addUser(username)
+  fetchData()
   let game = new Phaser.Game(config)
 }
 
