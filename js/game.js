@@ -7,6 +7,10 @@ let config = {
     type: Phaser.WEBGL,
     width: 768,
     height: 768,
+    scale: {
+        mode: Phaser.Scale.RESIZE,
+        autoCenter: Phaser.Scale.CENTER_BOTH
+    },
     physics: {
         default: 'matter',
         matter: {
