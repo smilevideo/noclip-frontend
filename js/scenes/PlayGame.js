@@ -9,9 +9,9 @@ class PlayGame extends Phaser.Scene {
 
         let shapes = this.cache.json.get('shapes');
 
-        this.playerCollisionCat = this.matter.world.nextCategory();
-        this.obstacleCollisionCat = this.matter.world.nextCategory();
-        this.otherCollisionCat = this.matter.world.nextCategory();
+        this.playerCollisionCat = 1;
+        this.obstacleCollisionCat = 2;
+        this.otherCollisionCat = 4;
     
         //background image
         let image = this.add.image(this.gameWidth / 2, this.gameHeight / 2, 'bg')
