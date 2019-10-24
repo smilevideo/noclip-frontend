@@ -15,12 +15,34 @@ class Victory extends Phaser.Scene {
             { font: '24px Arial', fill: 'yellow' });
 
         this.cursors = this.input.keyboard.createCursorKeys();
+
+        this.submitScore();
     }
     
     update() {
         if (this.cursors.space.isDown) {
             this.scene.start('PlayGame');
         }
+    }
+
+    submitScore() { 
+        fetch('http://localhost:3000/scores', {
+            method: "POST",
+            headers: {
+                'Content_Type' : 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                score: {
+                  'user_id': localStorage.userId,
+                  'score': this.registry.values.score
+                }
+            })
+        })
+        
+        //slap it on the DOM
+        let gamescores = `<h3>${localStorage.username} - ${this.registry.values.score}</h3>`
+        document.getElementById('topgames').innerHTML += gamescores
     }
 }
 

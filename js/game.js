@@ -1,5 +1,4 @@
 import Initializer from './scenes/Initializer.js';
-import Login from './scenes/Login.js';
 import PlayGame from './scenes/PlayGame.js';
 import Victory from './scenes/Victory.js';
 import Defeat from './scenes/Defeat.js';
@@ -23,7 +22,6 @@ let config = {
     version: '.0001',
     scene: [
         Initializer,
-        Login,
         PlayGame,
         Victory,
         Defeat
@@ -31,11 +29,7 @@ let config = {
     parent: 'game'
 };
 
-
-//################# NEW STUFF ####################
-
 const userForm = document.getElementById('user_form');
-const scoreinput = document.getElementById('score');
 const BASE_URL = "http://localhost:3000";
 const userURL = `${BASE_URL}/users`;
 const SCORES_URL = `${BASE_URL}/scores`;
@@ -57,7 +51,6 @@ function fetchData() {
     })
 }
 
-
 function addUser(username) {
     fetch(userURL, {
         method: 'POST',
@@ -73,8 +66,8 @@ function addUser(username) {
     })
     .then(res => res.json())
     .then(data => {
-        localStorage.setItem('currentUsername', data.username)
-        localStorage.setItem('user_id', data.id)
+        localStorage.setItem('userId', data.id)
+        localStorage.setItem('username', data.username)
     })
 }
 
@@ -93,6 +86,3 @@ function createUser(e) {
 
     let game = new Phaser.Game(config);
 }
-
-// can get from localStorage
-let currentUser;
