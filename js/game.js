@@ -5,8 +5,8 @@ import Defeat from './scenes/Defeat.js';
 
 let config = {
     type: Phaser.WEBGL,
-    width: 768,
-    height: 768,
+    width: 800,
+    height: 650,
     physics: {
         default: 'matter',
         matter: {
