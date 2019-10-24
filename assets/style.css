@@ -74,3 +74,8 @@ hr:after {
 .icon {
 	font-family: "Font Awesome";
 }
+
+#form-wrapper {
+	margin: auto;
+	padding: 70px 0;
+}

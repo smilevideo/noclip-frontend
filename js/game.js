@@ -14,7 +14,7 @@ let config = {
                 x: 0,
                 y: 0
             },
-            debug: true,
+            debug: false,
             setBounds: true
         }
     },
@@ -79,7 +79,7 @@ function createUser(e) {
     document.getElementById('users').style.display = "";
     document.getElementById('instructions').style.display = "";
     let username = e.target[0].value;
-    console.log(username);
+
     addUser(username);
 
     fetchData();
