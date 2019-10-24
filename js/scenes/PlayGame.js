@@ -27,18 +27,21 @@ class PlayGame extends Phaser.Scene {
             pillar.setCollisionCategory(this.otherCollisionCat);
             pillar.setCollidesWith([this.playerCollisionCat, this.obstacleCollisionCat]);
             pillar.setStatic(true).setScale(.6);
+            pillar.setFriction(0).setFrictionAir(0).setFrictionStatic(0);
 
             //right side
             pillar = this.matter.add.image(this.gameWidth, 100 + (i * 200), 'pillar');
             pillar.setCollisionCategory(this.otherCollisionCat);
             pillar.setCollidesWith([this.playerCollisionCat, this.obstacleCollisionCat]);
             pillar.setStatic(true).setScale(.6);
+            pillar.setFriction(0).setFrictionAir(0).setFrictionStatic(0);
 
             //bottom side
             pillar = this.matter.add.image(100 + (i * 200), this.gameHeight, 'pillar');
             pillar.setCollisionCategory(this.otherCollisionCat);
             pillar.setCollidesWith([this.playerCollisionCat, this.obstacleCollisionCat]);
             pillar.setStatic(true).setScale(.6);
+            pillar.setFriction(0).setFrictionAir(0).setFrictionStatic(0);
             pillar.angle = 90;
 
             //top side
@@ -46,6 +49,7 @@ class PlayGame extends Phaser.Scene {
             pillar.setCollisionCategory(this.otherCollisionCat);
             pillar.setCollidesWith([this.playerCollisionCat, this.obstacleCollisionCat]);
             pillar.setStatic(true).setScale(.6);
+            pillar.setFriction(0).setFrictionAir(0).setFrictionStatic(0);
             pillar.angle = 90;
         }
     
@@ -64,15 +68,16 @@ class PlayGame extends Phaser.Scene {
     
         this.player.angle = 270;
         this.player.setFixedRotation();
+        this.player.setScale(.7);
         this.player.setFrictionAir(.05);
-        this.player.setMass(50);
+        this.player.setMass(100);
 
         //particles for player object
         let playerParticles = this.add.particles('blueParticle');
 
         let playerEmitter = playerParticles.createEmitter({
             speed: 10,
-            scale: { start: 0.1, end: 0 },
+            scale: { start: 0.08, end: 0 },
             blendMode: 'ADD' 
         });
 
@@ -81,18 +86,23 @@ class PlayGame extends Phaser.Scene {
         //obstacle objects    
         let obstacleNames = ['ayu2', 'morty', 'poo', 'saw'];
         for(let i = 0; i < obstacleNames.length; i++) {
-            let spawnX = Math.floor((Math.random() * this.gameWidth) - 50);
-            let obstacle = this.matter.add.image(spawnX, (this.gameHeight - 300) - (i * 100), obstacleNames[i], null,
-                { shape: shapes[obstacleNames[i]] });
+            for(let j = 0; j < 5; j++) {
+                let spawnX = Math.floor((Math.random() * this.gameWidth) - 50);
+                let spawnY = (Math.floor(Math.random() * 5) + 1.5) * 100;
+                let obstacle = this.matter.add.image(spawnX, spawnY, obstacleNames[i], null,
+                    { shape: shapes[obstacleNames[i]] });
 
-            obstacle.setCollisionCategory(this.obstacleCollisionCat);
+                obstacle.setCollisionCategory(this.obstacleCollisionCat);
 
-            let velocityX = Math.floor(Math.random() * 2) + 1;
-            if (Math.random() >= .5) {
-                velocityX *= -1;
+                obstacle.setScale(0.25);
+
+                let velocityX = Math.floor(Math.random() * 2) + 1;
+                if (Math.random() >= .5) {
+                    velocityX *= -1;
+                }
+                let velocityY = 0;
+                obstacle.setVelocity(velocityX, velocityY).setBounce(1).setFriction(0);
             }
-            let velocityY = 0;
-            obstacle.setVelocity(velocityX, velocityY).setBounce(1).setFriction(0);
         }
     
         //goal object
@@ -104,18 +114,18 @@ class PlayGame extends Phaser.Scene {
         this.anims.create({
             key: 'goalPulse',
             frames: this.anims.generateFrameNumbers('blueRing', { start: 0, end: 14 }),
-            frameRate: 15,
+            frameRate: 20,
             repeat: -1
         })
     
         //energy bar
         this.energyBar = this.add.sprite(50, (this.gameHeight / 2), 'energyBar').setScale(.5);
-        this.energyBar.alpha = 0.9;
+        this.energyBar.alpha = 1;
         this.energyBar.angle = 90;
         this.energyBar.displayWidth = 150;
 
         this.energyMask = this.add.sprite(this.energyBar.x, this.energyBar.y, "energyBar").setScale(.5);
-        this.energyMask.alpha = 0.9;
+        this.energyMask.alpha = 1;
         this.energyMask.angle = 90;
         this.energyMask.displayWidth = 150;
         this.energyMask.visible = false;
@@ -192,7 +202,7 @@ class PlayGame extends Phaser.Scene {
             this.player.setCollidesWith(this.otherCollisionCat);
             
             //drains energy
-            this.energyMask.y += 1;
+            this.energyMask.y += 2;
         }
         else {
             this.clip();
