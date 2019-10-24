@@ -152,6 +152,10 @@ class PlayGame extends Phaser.Scene {
     
         //input keys
         this.cursors = this.input.keyboard.createCursorKeys();    
+
+        //soundbites
+        this.billy = this.sound.add('billy', { loop: false });
+        this.van = this.sound.add('van', { loop: false });
     }
     
     update() {
@@ -217,11 +221,13 @@ class PlayGame extends Phaser.Scene {
     
     loss() {
         console.log('game loss');
+        this.billy.play();
         this.scene.start('Defeat');
     }
     
     win() {
         console.log('game win');
+        this.van.play();
         this.scene.start('Victory');
     }
 }

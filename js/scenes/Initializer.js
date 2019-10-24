@@ -21,12 +21,14 @@ class Initializer extends Phaser.Scene {
         
         this.load.json('shapes', 'assets/images/shapes.json');
     
-        this.load.audio('beat', 'assets/audio/8bit_williamtell.mp3');
+        this.load.audio('williamtell', 'assets/audio/8bit_williamtell.mp3');
+        this.load.audio('billy', 'assets/audio/AAAAAAAH.mp3');
+        this.load.audio('van', 'assets/audio/Boy_next_door.mp3');
     }
 
     create() {
         //music
-        this.music = this.sound.add('beat', { loop: true });
+        this.music = this.sound.add('williamtell', { loop: true });
         this.music.play();
 
         console.log('Preload Complete');
