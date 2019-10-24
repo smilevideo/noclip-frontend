@@ -32,14 +32,14 @@ let config = {
 
 //################# NEW STUFF ####################
 
-const userForm = document.getElementById('user_form')
-const scoreinput = document.getElementById('score')
+const userForm = document.getElementById('user_form');
+const scoreinput = document.getElementById('score');
 const BASE_URL = "http://localhost:3000";
-const userURL = `${BASE_URL}/users`
+const userURL = `${BASE_URL}/users`;
 const GAMES_URL = `${BASE_URL}/games`;
 
 
-userForm.addEventListener('submit', createUser)
+userForm.addEventListener('submit', createUser);
 
 // get top 10 game scores
 function fetchData() {
@@ -70,19 +70,25 @@ function addUser(username) {
     })
   })
     .then(res => res.json())
-    .then(data => localStorage.setItem('user_id', data.id))
+    .then(data => {
+        localStorage.setItem('currentUsername', data.username)
+        localStorage.setItem('user_id', data.id)
+    })
 }
 
 function createUser(e) {
-  e.preventDefault()
-  document.getElementById('form').style.display = "none"
-  document.getElementById('users').style.display = ""
-  let username = e.target[0].value
+  e.preventDefault();
+  let elem = document.getElementById('form-wrapper');
+  elem.parentNode.removeChild(elem);
+
+  document.getElementById('users').style.display = "";
+  document.getElementById('instructions').style.display = "";
+  let username = e.target[0].value;
   console.log(username);
-  addUser(username)
-  currentUser = localStorage.user_id;
-  fetchData()
-  let game = new Phaser.Game(config)
+  addUser(username);
+
+  fetchData();
+  let game = new Phaser.Game(config);
 }
 
 // can get from localStorage
