@@ -1,8 +1,9 @@
-<!doctype html> 
-<html lang="en"> 
-<head> 
+<!doctype html>
+<html lang="en">
+<head>
     <meta charset="UTF-8" />
     <title>noclip</title>
+    <link rel="stylesheet" href="assets/style.css">
     <script defer src='js/lib/phaser.js'></script>
     <style type="text/css">
         body {
@@ -14,6 +15,30 @@
 </head>
 
 <body>
-    <div id='game'></div>
+
+    <section id="header" class="section">
+			<div class="inner">
+        <div id='game'>
+        </div>
+        <div id='users' style="display: none">
+          <h1 class='flux'>HI-SCORES</h1>
+            <br>
+          <div class="users" id='topgames'>
+          </div>
+        </div>
+        <div>
+          <div id='form'>
+					  <span class="icon major fa-cloud"></span>
+					  <h1 id='enter'>Enter your name to play:</h1>
+              <br>
+            <form id="user_form">
+              <input id="user_input" type="text" name="user" required/>
+                <br>
+              <input type="submit" value="Submit"/>
+            </form>
+          </div>
+				</div>
+      </div>
+		</section>
 </body>
 </html>
