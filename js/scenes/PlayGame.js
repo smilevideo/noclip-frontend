@@ -133,10 +133,15 @@ class PlayGame extends Phaser.Scene {
         this.energyBar.mask = new Phaser.Display.Masks.BitmapMask(this, this.energyMask);
    
         this.noEnergyText = this.add.text(this.energyBar.x - 10, this.energyBar.y, 'ENERGY DEPLETED', 
-        { font: '8px Arial', fill: '#00ff00' });
+            { font: '8px Arial', fill: '#00ff00' });
         this.noEnergyText.alpha = 0.9;
         this.noEnergyText.visible = false;
 
+        //score
+        this.score = 10000;
+        this.timedEvent = this.time.addEvent({ delay: 10, callback: this.timeScore, callbackScope: this, loop: true });
+        this.scoreText = this.add.text(this.gameWidth - 150, 50, `Score: ${this.score}`, 
+            { font: '20px Arial' });
 
         //collision handling
         this.matter.world.on('collisionstart', (event, bodyA, bodyB) => {
@@ -152,16 +157,20 @@ class PlayGame extends Phaser.Scene {
     
         //input keys
         this.cursors = this.input.keyboard.createCursorKeys();    
+    }
 
-        //soundbites
-        this.billy = this.sound.add('billy', { loop: false });
-        this.van = this.sound.add('van', { loop: false });
+    timeScore() {
+        this.score -= 1;
     }
     
     update() {
         this.player.anims.play('playerFly', true);
         this.goal.anims.play('goalPulse', true);
 
+        //update score text
+        this.scoreText.setText(`Score: ${this.score}`);
+
+        //check if energy depleted to display message
         if ((this.energyMask.y >= ((this.gameHeight / 2) + this.energyBar.displayWidth)) && this.noEnergyText.visible === false) {
             this.noEnergyText.visible = true;
         }
@@ -221,13 +230,11 @@ class PlayGame extends Phaser.Scene {
     
     loss() {
         console.log('game loss');
-        this.billy.play();
         this.scene.start('Defeat');
     }
     
     win() {
         console.log('game win');
-        this.van.play();
         this.scene.start('Victory');
     }
 }

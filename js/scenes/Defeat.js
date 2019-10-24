@@ -1,9 +1,13 @@
+import PlayGame from "./PlayGame";
+
 class Defeat extends Phaser.Scene {
     constructor() {
         super({key: 'Defeat'});
     }
   
     create() {
+        this.billy = this.sound.add('billy', { loop: false });
+        this.billy.play();
         this.cameras.main.setBackgroundColor('#ffffff');
 
         let poo = this.add.image((this.game.config.width / 2), (this.game.config.height / 2), 'archmage');
