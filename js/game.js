@@ -30,7 +30,7 @@ let config = {
 };
 
 
-############## NEW SHIT ####################
+//################# NEW SHIT ####################
 
 const userForm = document.getElementById('user_form')
 const scoreinput = document.getElementById('score')
@@ -79,17 +79,15 @@ function createUser(e) {
   e.preventDefault()
   document.getElementById('form').style.display = "none"
   document.getElementById('users').style.display = ""
-  let username = ev.target[0].value
-  addUser(username)
-  fetchData()
+  let username = e.target[0].value
+  console.log(username);
+//   addUser(username)
+//   fetchData()
   let game = new Phaser.Game(config)
 }
 
 // can get from localStorage
 let currentUser;
-
-
-
 
 
 function welcomePage() {
