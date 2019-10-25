@@ -5,6 +5,10 @@ class Victory extends Phaser.Scene {
 
     create() {
         this.van = this.sound.add('van', { loop: false });
+        this.deep = this.sound.add('deep', { loop: false });
+        this.ty = this.sound.add('ty', { loop: false });
+        this.power = this.sound.add('power', { loop: false });
+        this.woo = this.sound.add('WOO', { loop: false });
         this.van.play();
 
         let taiko = this.add.image((this.game.config.width / 2), (this.game.config.height / 2), 'taiko');
@@ -22,6 +26,18 @@ class Victory extends Phaser.Scene {
     update() {
         if (this.cursors.space.isDown) {
             this.scene.start('PlayGame');
+        }
+        if (this.cursors.left.isDown) {
+            this.deep.play()
+        }
+        if (this.cursors.up.isDown) {
+            this.ty.play()
+        }
+        if (this.cursors.down.isDown) {
+            this.power.play();
+        }
+        if (this.cursors.right.isDown) {
+            this.woo.play();
         }
     }
 
