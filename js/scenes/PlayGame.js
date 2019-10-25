@@ -12,6 +12,7 @@ class PlayGame extends Phaser.Scene {
         this.playerCollisionCat = 1;
         this.obstacleCollisionCat = 2;
         this.otherCollisionCat = 4;
+        this.flameCollisionCat = 8;
 
         //background image
         let image = this.add.image(this.gameWidth / 2, this.gameHeight / 2, 'bg')
@@ -105,6 +106,18 @@ class PlayGame extends Phaser.Scene {
             }
         }
 
+        this.flame = this.matter.add.sprite((this.gameWidth / 2), (this.gameHeight / 2), 'flame');
+        this.anims.create({
+            key: 'flameBurn',
+            frames: this.anims.generateFrameNumbers('flame', { start: 0, end: 6 }),
+            frameRate: 10,
+            repeat: -1
+        })
+        this.flame.setStatic(true);
+        this.flame.setScale(1.5);
+        this.flame.setCollisionCategory(this.flameCollisionCat);
+        this.flame.setCollidesWith(this.playerCollisionCat);
+
         //goal object
         this.goal = this.matter.add.sprite(this.gameWidth / 2, 80, 'blueRing', null, { shape: shapes.blueRing });
         this.goal.setScale(0.5);
@@ -162,6 +175,7 @@ class PlayGame extends Phaser.Scene {
     update() {
         this.player.anims.play('playerFly', true);
         this.goal.anims.play('goalPulse', true);
+        this.flame.anims.play('flameBurn', true);
 
         //update score text
         this.scoreText.setText(`Score: ${this.registry.values.score}`);
@@ -221,7 +235,7 @@ class PlayGame extends Phaser.Scene {
     clip() {
         //player is no longer transparent nor able to noclip
         this.player.alpha = 1;
-        this.player.setCollidesWith([this.obstacleCollisionCat, this.otherCollisionCat]);
+        this.player.setCollidesWith([this.obstacleCollisionCat, this.flameCollisionCat, this.otherCollisionCat]);
     }
 
     loss() {

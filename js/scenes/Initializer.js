@@ -6,6 +6,7 @@ class Initializer extends Phaser.Scene {
     preload() {
         this.load.spritesheet('ufo', 'assets/images/ufo/spritesheet.png', { frameWidth: 64, frameHeight: 64 });
         this.load.spritesheet('blueRing', 'assets/images/blue_ring/spritesheet.png', { frameWidth: 200, frameHeight: 200 });
+        this.load.spritesheet('flame', 'assets/images/flame.png', { frameWidth: 24, frameHeight: 24 });
 
         this.load.image('bg', 'assets/images/space.jpg');
         this.load.image('morty','assets/images/morty.png');
@@ -17,7 +18,6 @@ class Initializer extends Phaser.Scene {
         this.load.image('blueParticle', 'assets/images/blue.png');
         this.load.image('taiko', 'assets/images/taikodrummaster.jpg');
         this.load.image('archmage', 'assets/images/archmage.png');
-        this.load.image('birdy', 'assets/images/birdy.png');
         
         this.load.json('shapes', 'assets/images/shapes.json');
     
