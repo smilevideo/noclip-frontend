@@ -33,6 +33,8 @@ const userForm = document.getElementById('user_form');
 const BASE_URL = "http://localhost:3000";
 const userURL = `${BASE_URL}/users`;
 const SCORES_URL = `${BASE_URL}/scores`;
+const instruct = document.getElementById('instructions');
+let currentUser;
 
 
 userForm.addEventListener('submit', createUser);
@@ -68,6 +70,11 @@ function addUser(username) {
     .then(data => {
         localStorage.setItem('userId', data.id)
         localStorage.setItem('username', data.username)
+        currentUser = data;
+        let greeting = document.createElement('h4');
+        greeting.classList.add('text-center');
+        greeting.textContent = `Welcome ${localStorage.username}!`;
+        instruct.insertAdjacentElement('afterbegin', greeting);
     })
 }
 
@@ -77,7 +84,9 @@ function createUser(e) {
     elem.parentNode.removeChild(elem);
 
     document.getElementById('users').style.display = "";
-    document.getElementById('instructions').style.display = "";
+
+    instruct.style.display = '';
+
     let username = e.target[0].value;
     localStorage.clear();
     addUser(username);

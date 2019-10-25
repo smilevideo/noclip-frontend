@@ -8,6 +8,7 @@ class PlayGame extends Phaser.Scene {
         this.gameHeight = this.cameras.main.height;
 
         let shapes = this.cache.json.get('shapes');
+        let test = this.cache.json.get('test');
 
         this.playerCollisionCat = 1;
         this.obstacleCollisionCat = 2;
@@ -106,7 +107,8 @@ class PlayGame extends Phaser.Scene {
             }
         }
 
-        this.flame = this.matter.add.sprite((this.gameWidth / 2), (this.gameHeight / 2), 'flame');
+        this.flame = this.matter.add.sprite((this.gameWidth / 2), (this.gameHeight / 2), 'flame', null, 
+            { shape: test['flame'] });
         this.anims.create({
             key: 'flameBurn',
             frames: this.anims.generateFrameNumbers('flame', { start: 0, end: 6 }),
@@ -114,7 +116,7 @@ class PlayGame extends Phaser.Scene {
             repeat: -1
         })
         this.flame.setStatic(true);
-        this.flame.setScale(1.5);
+        this.flame.setScale(10);
         this.flame.setCollisionCategory(this.flameCollisionCat);
         this.flame.setCollidesWith(this.playerCollisionCat);
 

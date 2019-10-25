@@ -20,6 +20,7 @@ class Initializer extends Phaser.Scene {
         this.load.image('archmage', 'assets/images/archmage.png');
         
         this.load.json('shapes', 'assets/images/shapes.json');
+        this.load.json('test', 'assets/images/test.json');
     
         this.load.audio('williamtell', 'assets/audio/8bit_williamtell.mp3');
         this.load.audio('billy', 'assets/audio/AAAAAAAH.mp3');
