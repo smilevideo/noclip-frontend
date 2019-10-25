@@ -79,7 +79,7 @@ function createUser(e) {
     document.getElementById('users').style.display = "";
     document.getElementById('instructions').style.display = "";
     let username = e.target[0].value;
-
+    localStorage.clear();
     addUser(username);
 
     fetchData();
