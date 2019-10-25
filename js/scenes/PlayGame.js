@@ -88,7 +88,7 @@ class PlayGame extends Phaser.Scene {
         //obstacle objects
         let obstacleNames = ['ayu2', 'morty', 'poo', 'saw'];
         for(let i = 0; i < obstacleNames.length; i++) {
-            for(let j = 0; j < 5; j++) {
+            for(let j = 0; j < 4; j++) {
                 let spawnX = Math.floor((Math.random() * this.gameWidth) - 50);
                 let spawnY = (Math.floor(Math.random() * 5) + 1.5) * 100;
                 let obstacle = this.matter.add.image(spawnX, spawnY, obstacleNames[i], null,
@@ -96,7 +96,7 @@ class PlayGame extends Phaser.Scene {
 
                 obstacle.setCollisionCategory(this.obstacleCollisionCat);
 
-                obstacle.setScale(0.25);
+                obstacle.setScale(0.28);
 
                 let velocityX = Math.floor(Math.random() * 2) + 1;
                 if (Math.random() >= .5) {
