@@ -34,7 +34,7 @@ const BASE_URL = "http://localhost:3000";
 const userURL = `${BASE_URL}/users`;
 const SCORES_URL = `${BASE_URL}/scores`;
 const instruct = document.getElementById('instructions');
-let currentUser;
+
 
 
 userForm.addEventListener('submit', createUser);
@@ -70,10 +70,11 @@ function addUser(username) {
     .then(data => {
         localStorage.setItem('userId', data.id)
         localStorage.setItem('username', data.username)
-        currentUser = data;
+        // welcome user by their username
         let greeting = document.createElement('h4');
         greeting.classList.add('text-center');
         greeting.textContent = `Welcome ${localStorage.username}!`;
+        // insert greeting inside greeting but before first child
         instruct.insertAdjacentElement('afterbegin', greeting);
     })
 }
@@ -81,13 +82,15 @@ function addUser(username) {
 function createUser(e) {
     e.preventDefault();
     let elem = document.getElementById('form-wrapper');
+    // remove from DOM
     elem.parentNode.removeChild(elem);
 
+    // show high scores and instructions
     document.getElementById('users').style.display = "";
-
     instruct.style.display = '';
 
     let username = e.target[0].value;
+    // clear out localStorage
     localStorage.clear();
     addUser(username);
 
