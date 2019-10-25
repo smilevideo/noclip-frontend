@@ -138,7 +138,7 @@ class PlayGame extends Phaser.Scene {
         this.noEnergyText.visible = false;
 
         //score
-        this.registry.values.score = 10000;
+        this.registry.values.score = 1000;
         this.timedEvent = this.time.addEvent({ delay: 5, callback: () => { this.registry.values.score -= 1 }, callbackScope: this, loop: true });
         this.scoreText = this.add.text(this.gameWidth - 150, 50, `Score: ${this.registry.values.score}`,
             { font: '20px Arial' });
