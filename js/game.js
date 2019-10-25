@@ -86,9 +86,3 @@ function createUser(e) {
 
     let game = new Phaser.Game(config);
 }
-function deleteUser() {
-    return fetch(`${userURL}/${localStorage.userId}`, {
-        method: "DELETE",
-    })
-}
-
