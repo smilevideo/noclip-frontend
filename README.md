@@ -1,5 +1,6 @@
 # noclip
 An HTML5 game made with Javascript and Phaser 3, with a Rails API backend.
+Demo deployed here: https://smilevideo.github.io/noclip-frontend/
 
 Use your energy to phase through any obstacles to reach the end, but be careful: if you return to material form on top of an obstacle, you will perish!
 
