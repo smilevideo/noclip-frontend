@@ -19,6 +19,7 @@ Shift: stop
 
 ## Current Bugs:
 - Collisions not always recognized
+- can't noclip + move diagonally up-left or down-right at the same time
 
 ## Thanks to:
 Framework: [Phaser 3](phaser.io)
