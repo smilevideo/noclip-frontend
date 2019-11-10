@@ -42,7 +42,7 @@ class Victory extends Phaser.Scene {
     }
 
     submitScore() { 
-        fetch('http://localhost:3000/scores', {
+        fetch('https://nameless-dusk-24062.herokuapp.com/scores', {
             method: "POST",
             headers: {
                 'Content_Type' : 'application/json',
