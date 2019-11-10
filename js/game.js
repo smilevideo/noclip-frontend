@@ -30,7 +30,7 @@ let config = {
 };
 
 const userForm = document.getElementById('user_form');
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "https://nameless-dusk-24062.herokuapp.com";
 const userURL = `${BASE_URL}/users`;
 const SCORES_URL = `${BASE_URL}/scores`;
 const instruct = document.getElementById('instructions');
