@@ -5,13 +5,13 @@ Demo deployed here: https://smilevideo.github.io/noclip-frontend/
 
 Use your energy to phase through any obstacles to reach the end, but be careful: if you return to material form on top of an obstacle, you will perish!
 
-Users begin by entering their username. A password is not required.
+Users begin by entering their username (no passwords).
 
 Once the username is submitted, the instructions are provided to the left, the game window is in the middle, and the high scores are on the right.
 
 ## Controls:
 
-Arrow keys: thrust
+Arrow keys: thrust, and some other things if you win :)
 
 Space: noclip
 
